@@ -178,8 +178,8 @@ rust_toolchain = rule(
             doc = "Rustc debug info levels per opt level",
             default = {
                 "dbg": "2",
-                "fastbuild": "0",
-                "opt": "0",
+                "fastbuild": "2",
+                "opt": "2",
             },
         ),
         "default_edition": attr.string(
@@ -199,8 +199,8 @@ rust_toolchain = rule(
         "opt_level": attr.string_dict(
             doc = "Rustc optimization levels.",
             default = {
-                "dbg": "0",
-                "fastbuild": "0",
+                "dbg": "3",
+                "fastbuild": "3",
                 "opt": "3",
             },
         ),
