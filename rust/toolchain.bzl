@@ -77,13 +77,13 @@ rust_toolchain = rule(
         ),
         "opt_level": attr.string_dict(default = {
             "opt": "3",
-            "dbg": "0",
-            "fastbuild": "0",
+            "dbg": "3",
+            "fastbuild": "3",
         }),
         "debug_info": attr.string_dict(default = {
-            "opt": "0",
+            "opt": "2",
             "dbg": "2",
-            "fastbuild": "0",
+            "fastbuild": "2",
         }),
     },
     doc = """
