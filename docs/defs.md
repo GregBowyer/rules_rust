@@ -303,6 +303,8 @@ INFO: Elapsed time: 1.245s, Critical Path: 1.01s
 | <a id="rust_library-stamp"></a>stamp |  Whether to encode build information into the <code>Rustc</code> action. Possible values:<br><br>- <code>stamp = 1</code>: Always stamp the build information into the <code>Rustc</code> action, even in             [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.             This setting should be avoided, since it potentially kills remote caching for the target and             any downstream actions that depend on it.<br><br>- <code>stamp = 0</code>: Always replace build information by constant values. This gives good build result caching.<br><br>- <code>stamp = -1</code>: Embedding of build information is controlled by the             [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.<br><br>Stamped targets are not rebuilt unless their dependencies change.<br><br>For example if a <code>rust_library</code> is stamped, and a <code>rust_binary</code> depends on that library, the stamped library won't be rebuilt when we change sources of the <code>rust_binary</code>. This is different from how [<code>cc_library.linkstamps</code>](https://docs.bazel.build/versions/main/be/c-cpp.html#cc_library.linkstamp) behaves.   | Integer | optional | 0 |
 | <a id="rust_library-version"></a>version |  A version to inject in the cargo environment variable.   | String | optional | "0.0.0" |
 
+This rule provides CcInfo, so it can be used everywhere Bazel expects `rules_cc`. Right now this is somewhat experimental and can cause
+failures on Windows, macos and with GCC. It is hoped that https://github.com/rust-lang/rust/issues/73632 will make this work more seemlessly.
 
 <a id="rust_proc_macro"></a>
 
@@ -352,15 +354,6 @@ rust_shared_library(<a href="#rust_shared_library-name">name</a>, <a href="#rust
 
 Builds a Rust shared library.
 
-This shared library will contain all transitively reachable crates and native objects.
-It is meant to be used when producing an artifact that is then consumed by some other build system
-(for example to produce a shared library that Python program links against).
-
-This rule provides CcInfo, so it can be used everywhere Bazel expects `rules_cc`.
-
-When building the whole binary in Bazel, use `rust_library` instead.
-
-
 **ATTRIBUTES**
 
 
@@ -395,15 +388,6 @@ rust_static_library(<a href="#rust_static_library-name">name</a>, <a href="#rust
 </pre>
 
 Builds a Rust static library.
-
-This static library will contain all transitively reachable crates and native objects.
-It is meant to be used when producing an artifact that is then consumed by some other build system
-(for example to produce an archive that Python program links against).
-
-This rule provides CcInfo, so it can be used everywhere Bazel expects `rules_cc`.
-
-When building the whole binary in Bazel, use `rust_library` instead.
-
 
 **ATTRIBUTES**
 
